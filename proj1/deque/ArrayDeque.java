@@ -7,8 +7,20 @@ public class ArrayDeque<Item> implements Deque<Item> {
     private int nextLast;
     /* |nextFirst - nextLast| = size + 1*/
 
+    // Given current index that may exceed array range, transform it to correct in-range index
+    private int refreshIndex(int index){
+        if (index < 0 ){
+            return items.length + index;
+        } else if (index >= items.length){
+            return index - items.length;
+        }
+        else{
+            return index;
+        }
+    }
+
     public ArrayDeque() {
-        items = (Item[]) new Object[4];
+        items = (Item[]) new Object[8];
         size = 0;
         nextFirst = 0;
         nextLast = 1;
@@ -18,9 +30,13 @@ public class ArrayDeque<Item> implements Deque<Item> {
     public void addFirst(Item item) {
         items[nextFirst] = item;
         nextFirst -= 1;
+        nextFirst = refreshIndex(nextFirst);
+        // consider prev_size + 1 for resize?
+        /*
         if (nextFirst < 0){
             nextFirst = items.length + nextFirst;
         }
+         */
         size += 1;
     }
 
@@ -28,9 +44,12 @@ public class ArrayDeque<Item> implements Deque<Item> {
     public void addLast(Item item) {
         items[nextLast] = item;
         nextLast += 1;
+        nextLast = refreshIndex(nextLast);
+        /*
         if (nextLast >= items.length){
             nextLast = nextLast - items.length;
         }
+         */
         size += 1;
     }
 
@@ -48,11 +67,9 @@ public class ArrayDeque<Item> implements Deque<Item> {
     public void printDeque() {
         /* initialize the first and end of array */
         for (int i = 0 ; i < size; i++){
-            int j = i + nextFirst + 1;
-            if (j >= items.length){
-                j = j - items.length ;
-            }
-            System.out.print(items[j] + " ");
+            int index = i + nextFirst + 1;
+            index = refreshIndex(index);
+            System.out.print(items[index] + " ");
         }
         System.out.println();
 
@@ -64,9 +81,7 @@ public class ArrayDeque<Item> implements Deque<Item> {
             return null;
         } else {
             int index = nextFirst + 1;
-            if (index >= items.length){
-                index = index - items.length ;
-            }
+            index = refreshIndex(index);
             Item x = items[index];
             size -= 1;
             items[index] = null;
@@ -79,15 +94,21 @@ public class ArrayDeque<Item> implements Deque<Item> {
         if (size <= 0){
             return null;
         }else{
-            Item x = items[nextLast - 1];
+            int index = nextLast - 1;
+            index = refreshIndex(index);
+            Item x = items[index];
             size -= 1;
-            items[nextLast - 1] = null;
+            items[index] = null;
             return x;
         }
     }
 
     @Override
     public Item get(int index) {
-        return null;
+        if (size == 0 || index + 1 > size) {
+            return null;
+        } else {
+            return items[refreshIndex(index + nextFirst + 1)];
+        }
     }
 }
