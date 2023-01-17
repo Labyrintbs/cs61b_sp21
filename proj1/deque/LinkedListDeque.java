@@ -43,8 +43,8 @@ public class LinkedListDeque<Item> implements Deque<Item>{
             Node new_first = new Node(x, sentinel, prev_first);
             sentinel.next = new_first;
             prev_first.prev = new_first;
+            size += 1;
         }
-        size += 1;
         /*
         if (sentinel.next == null) {
             sentinel.next = new Node(x, sentinel, sentinel);
@@ -70,8 +70,8 @@ public class LinkedListDeque<Item> implements Deque<Item>{
             Node new_last = new Node(x, prev_last, sentinel);
             sentinel.prev = new_last;
             prev_last.next = new_last;
+            size += 1;
         }
-        size += 1;
         /*
         if (sentinel.next == null) {
             sentinel.next = new Node(x, sentinel, sentinel);

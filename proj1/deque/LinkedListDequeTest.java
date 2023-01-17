@@ -121,4 +121,44 @@ public class LinkedListDequeTest {
     }
 
     /*TODO: add get test*/
+    @Test
+    public void GetTest(){
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        for (int i = 0; i < 10; i++){
+            lld.addLast(i);
+        }
+        assertEquals(0, (int)lld.get(0));
+        assertEquals(9, (int)lld.get(9));
+    }
+
+    @Test
+    /* Addlast and Addfirst test*/
+    public void AddfirstTest(){
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        for (int i = 0; i < 10; i++){
+            lld.addFirst(i);
+        }
+        lld.printDeque();
+
+        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>(20);
+        for (int i = 0; i < 10; i++) {
+            lld2.addFirst(i);
+        }
+        lld2.printDeque();
+    }
+
+    @Test
+    /* Addlast and Addfirst test*/
+    public void AddlastTest() {
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        for (int i = 0; i < 10; i++) {
+            lld.addLast(i);
+        }
+
+        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>(20);
+        for (int i = 0; i < 10; i++) {
+            lld2.addLast(i);
+        }
+        lld2.printDeque();
+    }
 }
