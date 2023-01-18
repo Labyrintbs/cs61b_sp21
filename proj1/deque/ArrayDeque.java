@@ -11,44 +11,43 @@ public class ArrayDeque<T> implements Deque<T> {
     /* |nextFirst - nextLast| = size + 1*/
 
     // Given current index that may exceed array range, transform it to correct in-range index
-    private int refreshIndex(int index){
-        if (index < 0 ){
+    private int refreshIndex(int index) {
+        if(index < 0 ) {
             return items.length + index;
-        } else if (index >= items.length){
+        } else if (index >= items.length) {
             return index - items.length;
-        }
-        else{
+        } else {
             return index;
         }
     }
 
-    private void big_resize(){
-        int ori_len = items.length;
-        if (size+1 > ori_len){
-            T[] bigger_items = (T[]) new Object[ori_len * UPFACTOR];
-            for (int i = 0; i < size; i++){
-                bigger_items[i] = this.get(i);
+    private void bigResize(){
+        int oriLen = items.length;
+        if (size+1 > oriLen) {
+            T[] biggerItems = (T[]) new Object[oriLen * UPFACTOR];
+            for (int i = 0; i < size; i ++ ) {
+                biggerItems[i] = this.get(i);
             }
-            items = bigger_items;
+            items = biggerItems;
             nextFirst = refreshIndex(-1);
             nextLast = refreshIndex(size);
-        }else{
+        } else {
             return;
         }
     }
 
-    private void small_resize(){
-        int ori_len = items.length;
+    private void smallResize() {
+        int oriLen = items.length;
 
-        if (ori_len > 8 && (size - 1) * 2 < ori_len) {
-            T[] smaller_items = (T[]) new Object[(int) (ori_len * DOWNFACTOR)];
+        if (oriLen > 8 && (size - 1) * 2 < oriLen) {
+            T[] smallerItems = (T[]) new Object[(int) (oriLen * DOWNFACTOR)];
             for (int i = 0; i < size; i++) {
-                smaller_items[i] = this.get(i);
+                smallerItems[i] = this.get(i);
             }
-            items = smaller_items;
+            items = smallerItems;
             nextFirst = refreshIndex(-1);
             nextLast = refreshIndex(size);
-        }else{
+        } else {
             return;
         }
 
@@ -62,7 +61,7 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public void addFirst(T item) {
-        big_resize();
+        bigResize();
         items[nextFirst] = item;
         nextFirst -= 1;
         nextFirst = refreshIndex(nextFirst);
@@ -77,7 +76,7 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public void addLast(T item) {
-        big_resize();
+        bigResize();
         items[nextLast] = item;
         nextLast += 1;
         nextLast = refreshIndex(nextLast);
@@ -102,7 +101,7 @@ public class ArrayDeque<T> implements Deque<T> {
     @Override
     public void printDeque() {
         /* initialize the first and end of array */
-        for (int i = 0 ; i < size; i++){
+        for (int i = 0 ; i < size; i ++ ) {
             int index = i + nextFirst + 1;
             index = refreshIndex(index);
             System.out.print(items[index] + " ");
@@ -116,7 +115,7 @@ public class ArrayDeque<T> implements Deque<T> {
         if (size <= 0){
             return null;
         } else {
-            small_resize();
+            smallResize();
             int index = nextFirst + 1;
             index = refreshIndex(index);
             T x = items[index];
@@ -129,16 +128,16 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public T removeLast() {
-        if (size <= 0){
+        if (size <= 0) {
             return null;
-        }else{
-            small_resize();
+        } else {
+            smallResize();
             int index = nextLast - 1;
             index = refreshIndex(index);
             T x = items[index];
             size -= 1;
             items[index] = null;
-            nextLast = refreshIndex(nextLast-1);
+            nextLast = refreshIndex(nextLast - 1);
             return x;
         }
     }
