@@ -1,12 +1,12 @@
 package deque;
 
-public class LinkedListDeque<Item> implements Deque<Item>{
+public class LinkedListDeque<T> implements Deque<T>{
     private class Node {
-        public Item item;
+        public T item;
         public Node next;
         public Node prev;
 
-        public Node(Item i, Node p, Node n) {
+        public Node(T i, Node p, Node n) {
             item = i;
             prev = p;
             next = n;
@@ -21,7 +21,7 @@ public class LinkedListDeque<Item> implements Deque<Item>{
         size = 0;
     }
 
-    public LinkedListDeque(Item x) {
+    public LinkedListDeque(T x) {
         sentinel = new Node(null, null, null);
         Node first_node = new Node(x, null, null);
         sentinel.next = first_node;
@@ -32,7 +32,7 @@ public class LinkedListDeque<Item> implements Deque<Item>{
     }
 
     @Override
-    public void addFirst(Item x) {
+    public void addFirst(T x) {
         if (size == 0) {
             sentinel = new Node(null, null, null);
             sentinel.next = new Node(x, sentinel, sentinel);
@@ -59,7 +59,7 @@ public class LinkedListDeque<Item> implements Deque<Item>{
     }
 
     @Override
-    public void addLast(Item x) {
+    public void addLast(T x) {
         if (size == 0){
             sentinel = new Node(null, null, null);
             sentinel.next = new Node(x, sentinel, sentinel);
@@ -107,12 +107,12 @@ public class LinkedListDeque<Item> implements Deque<Item>{
     }
 
     @Override
-    public Item removeFirst() {
+    public T removeFirst() {
         if (this.isEmpty()){
             return null;
         }else {
             Node first_node = sentinel.next;
-            Item x = first_node.item;
+            T x = first_node.item;
             sentinel.next = first_node.next;
             first_node.next.prev = sentinel;
             first_node.item = null;
@@ -122,13 +122,13 @@ public class LinkedListDeque<Item> implements Deque<Item>{
     }
 
     @Override
-    public Item removeLast() {
+    public T removeLast() {
         //TODO : change the condition to size
         if (this.isEmpty()){
             return null;
         }else {
             Node prev_node = sentinel.prev;
-            Item x = prev_node.item;
+            T x = prev_node.item;
             sentinel.prev = prev_node.prev;
             prev_node.item = null;
             prev_node.prev.next = sentinel;
@@ -138,7 +138,7 @@ public class LinkedListDeque<Item> implements Deque<Item>{
     }
 
     @Override
-    public Item get(int index) {
+    public T get(int index) {
         if (size == 0 || index + 1 > size) {
             return null;
         } else{

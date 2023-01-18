@@ -1,9 +1,8 @@
 package deque;
 
-import afu.org.checkerframework.checker.oigj.qual.O;
 
-public class ArrayDeque<Item> implements Deque<Item> {
-    private Item[] items;
+public class ArrayDeque<T> implements Deque<T> {
+    private T[] items;
     private int size;
     private int nextFirst;
     private int nextLast;
@@ -26,7 +25,7 @@ public class ArrayDeque<Item> implements Deque<Item> {
     private void big_resize(){
         int ori_len = items.length;
         if (size+1 > ori_len){
-            Item[] bigger_items = (Item[]) new Object[ori_len * UPFACTOR];
+            T[] bigger_items = (T[]) new Object[ori_len * UPFACTOR];
             for (int i = 0; i < size; i++){
                 bigger_items[i] = this.get(i);
             }
@@ -42,7 +41,7 @@ public class ArrayDeque<Item> implements Deque<Item> {
         int ori_len = items.length;
 
         if (ori_len > 8 && (size - 1) * 2 < ori_len) {
-            Item[] smaller_items = (Item[]) new Object[(int) (ori_len * DOWNFACTOR)];
+            T[] smaller_items = (T[]) new Object[(int) (ori_len * DOWNFACTOR)];
             for (int i = 0; i < size; i++) {
                 smaller_items[i] = this.get(i);
             }
@@ -55,14 +54,14 @@ public class ArrayDeque<Item> implements Deque<Item> {
 
     }
     public ArrayDeque() {
-        items = (Item[]) new Object[8];
+        items = (T[]) new Object[8];
         size = 0;
         nextFirst = 0;
         nextLast = 1;
     }
 
     @Override
-    public void addFirst(Item item) {
+    public void addFirst(T item) {
         big_resize();
         items[nextFirst] = item;
         nextFirst -= 1;
@@ -77,7 +76,7 @@ public class ArrayDeque<Item> implements Deque<Item> {
     }
 
     @Override
-    public void addLast(Item item) {
+    public void addLast(T item) {
         big_resize();
         items[nextLast] = item;
         nextLast += 1;
@@ -113,14 +112,14 @@ public class ArrayDeque<Item> implements Deque<Item> {
     }
 
     @Override
-    public Item removeFirst() {
+    public T removeFirst() {
         if (size <= 0){
             return null;
         } else {
             small_resize();
             int index = nextFirst + 1;
             index = refreshIndex(index);
-            Item x = items[index];
+            T x = items[index];
             size -= 1;
             items[index] = null;
             nextFirst = refreshIndex(nextFirst+1);
@@ -129,14 +128,14 @@ public class ArrayDeque<Item> implements Deque<Item> {
     }
 
     @Override
-    public Item removeLast() {
+    public T removeLast() {
         if (size <= 0){
             return null;
         }else{
             small_resize();
             int index = nextLast - 1;
             index = refreshIndex(index);
-            Item x = items[index];
+            T x = items[index];
             size -= 1;
             items[index] = null;
             nextLast = refreshIndex(nextLast-1);
@@ -145,7 +144,7 @@ public class ArrayDeque<Item> implements Deque<Item> {
     }
 
     @Override
-    public Item get(int index) {
+    public T get(int index) {
         if (size == 0 || index + 1 > size) {
             return null;
         } else {
