@@ -93,6 +93,37 @@ public class ArrayDequeTest {
     }
 
     @Test
+    public void getItemTest(){
+        ArrayDeque<Integer> ad1 =  new ArrayDeque<>();
+        ad1.addFirst(5);
+        ad1.addFirst(8);
+        ad1.addLast(2);
+        ad1.addFirst(15);
+        assertEquals(15, (int)ad1.get(0));
+        assertEquals(8, (int)ad1.get(1));
+        assertEquals(5, (int)ad1.get(2));
+        assertEquals(2, (int)ad1.get(3));
+    }
+
+    @Test
+    /* Add large number of elements to deque; check if order is correct. */
+    public void smallLLDequeTest() {
+
+        ArrayDeque<Integer> lld1 = new ArrayDeque<>();
+        for (int i = 0; i < 16; i++) {
+            lld1.addLast(i);
+        }
+
+        for (double i = 0; i < 8; i++) {
+            assertEquals("Should have the same value", i, (double) lld1.removeFirst(), 0.0);
+        }
+
+        for (double i = 15; i > 8; i--) {
+            assertEquals("Should have the same value", i, (double) lld1.removeLast(), 0.0);
+        }
+
+    }
+    @Test
     /* Add large number of elements to deque; check if order is correct. */
     public void bigLLDequeTest() {
 
