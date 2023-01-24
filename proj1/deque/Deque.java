@@ -1,13 +1,16 @@
 package deque;
+// need to implement iterable
+
 
 public interface Deque<T> {
     void addFirst(T item);
     void addLast(T item);
-    boolean isEmpty();
+    default boolean isEmpty() {
+        return size() == 0;
+    };
     int size();
     void printDeque();
     T removeFirst();
     T removeLast();
     T get(int index);
-
 }

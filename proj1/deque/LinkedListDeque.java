@@ -1,6 +1,8 @@
 package deque;
 
-public class LinkedListDeque<T> implements Deque<T> {
+import java.util.Iterator;
+
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private class Node {
         private T item;
         private Node next;
@@ -11,6 +13,32 @@ public class LinkedListDeque<T> implements Deque<T> {
             prev = p;
             next = n;
         }
+    }
+    private class LinkedListDequeIterator implements Iterator<T> {
+        private int iterPosition;
+        public LinkedListDequeIterator(){
+            iterPosition = 0;
+        }
+        @Override
+        public boolean hasNext() {
+            return iterPosition < size;
+        }
+
+        @Override
+        public T next() {
+            if (hasNext()) {
+                T nextItem = get(iterPosition);
+                iterPosition += 1;
+                return nextItem;
+            } else {
+                return null;
+            }
+        }
+    }
+
+    @Override
+    public Iterator<T> iterator(){
+        return new LinkedListDequeIterator();
     }
 
     private Node sentinel;
@@ -150,4 +178,36 @@ public class LinkedListDeque<T> implements Deque<T> {
         }
     }
 
+    public T getRecursive(int index) {
+        Node current = sentinel.next;
+        return getRecursiveHelper(index, current);
+    }
+
+    private T getRecursiveHelper(int index, Node node){
+        if (size == 0 || index + 1 > size) {
+            return null;
+        } else if (index == 0){
+            return node.item;
+        } else {
+            return getRecursiveHelper(index - 1 , node.next);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (o instanceof LinkedListDeque lld) {
+           if (lld.size() != this.size() ){
+               return false;
+           } else {
+               for (int i = 0; i < size ; i += 1 ) {
+                   if (this.get(i) != ((LinkedListDeque<?>) o).get(i)) {
+                       return false;
+                   }
+               }
+               return true;
+           }
+        } else {
+            return false;
+        }
+    }
 }

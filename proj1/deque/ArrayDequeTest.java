@@ -141,4 +141,36 @@ public class ArrayDequeTest {
         }
 
     }
+
+    @Test
+
+    public void iteratorTeset(){
+        ArrayDeque<Integer> ad1 =  new ArrayDeque<>();
+        ad1.addFirst(5);
+        ad1.addFirst(8);
+        ad1.addLast(2);
+        ad1.addFirst(15);
+        ad1.printDeque();
+        for (int i : ad1) {
+            System.out.println(i);
+        }
+    }
+
+
+    @Test
+    public void EqualTest() {
+        ArrayDeque<Integer> lld1 = new ArrayDeque<>();
+        for (int i = 0; i < 10; i++) {
+            lld1.addLast(i);
+        }
+
+        ArrayDeque<Integer> lld2 = new ArrayDeque<>();
+        for (int i = 0; i < 10; i++) {
+            lld2.addLast(i);
+        }
+
+        assertTrue("It should be same for two identical ad", lld1.equals(lld2));
+        lld2.addFirst(11);
+        assertFalse("It should be not same for not identical ad", lld1.equals(lld2));
+    }
 }
