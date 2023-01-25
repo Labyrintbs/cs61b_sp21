@@ -1,5 +1,7 @@
 package deque;
 
+import afu.org.checkerframework.checker.oigj.qual.O;
+
 import java.util.Iterator;
 
 public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
@@ -49,6 +51,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         size = 0;
     }
 
+    /*
     public LinkedListDeque(T x) {
         sentinel = new Node(null, null, null);
         Node firstNode = new Node(x, null, null);
@@ -58,6 +61,8 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         firstNode.next = sentinel;
         size = 1;
     }
+
+     */
 
     @Override
     public void addFirst(T x) {
@@ -114,10 +119,6 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
          */
     }
 
-    @Override
-    public boolean isEmpty() {
-        return (size == 0);
-    }
 
     @Override
     public int size() {
@@ -193,13 +194,14 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         }
     }
 
-    public boolean equals(LinkedListDeque o) {
+    public boolean equals(Object o) {
         if (o instanceof LinkedListDeque) {
-            if (o.size() != this.size()) {
+            LinkedListDeque lld = (LinkedListDeque) o;
+            if (lld.size() != this.size()) {
                return false;
             } else {
                 for (int i = 0; i < size ; i += 1 ) {
-                    if (this.get(i) != o.get(i)) {
+                    if (this.get(i) != lld.get(i)) {
                        return false;
                     }
                 }

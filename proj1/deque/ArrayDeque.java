@@ -117,10 +117,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size += 1;
     }
 
-    @Override
-    public boolean isEmpty() {
-        return (size == 0);
-    }
 
     @Override
     public int size() {
@@ -180,13 +176,14 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         }
     }
 
-    public boolean equals(ArrayDeque o) {
+    public boolean equals(Object o) {
         if (o instanceof ArrayDeque) {
-            if (o.size() != this.size()) {
+            ArrayDeque ad = (ArrayDeque) o;
+            if (ad.size() != this.size()) {
                 return false;
             } else {
                 for (int i = 0; i < size; i += 1) {
-                    if (this.get(i) != o.get(i)) {
+                    if (this.get(i) != ad.get(i)) {
                         return false;
                     }
                 }
