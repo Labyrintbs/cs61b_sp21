@@ -142,7 +142,7 @@ public class LinkedListDequeTest {
         }
         lld.printDeque();
 
-        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>(20);
+        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>();
         for (int i = 0; i < 10; i++) {
             lld2.addFirst(i);
         }
@@ -157,7 +157,7 @@ public class LinkedListDequeTest {
             lld.addLast(i);
         }
 
-        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>(20);
+        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>();
         for (int i = 0; i < 10; i++) {
             lld2.addLast(i);
         }
@@ -178,7 +178,7 @@ public class LinkedListDequeTest {
 
     @Test
     public void EqualTest() {
-        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+        ArrayDeque<Integer> lld1 = new ArrayDeque<>();
         for (int i = 0; i < 10; i++) {
             lld1.addLast(i);
         }

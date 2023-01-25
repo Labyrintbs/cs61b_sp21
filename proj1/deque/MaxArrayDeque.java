@@ -9,26 +9,16 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
     }
 
     public T max() {
-        if (size() == 0) {
-            return null;
-        } else {
-            T biggest = this.get(0);
-            for (T i : this) {
-                if (defaultComparator.compare(biggest, i) > 0) {
-                    biggest = i;
-                }
-            }
-            return biggest;
-        }
+        return max(defaultComparator);
     }
 
     public T max(Comparator<T> c) {
-        if (size() == 0) {
+        if (isEmpty()) {
             return null;
         } else {
             T biggest = this.get(0);
             for (T i : this) {
-                if (c.compare(biggest, i) > 0) {
+                if (c.compare(i, biggest) > 0) {
                     biggest = i;
                 }
             }

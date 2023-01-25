@@ -177,13 +177,13 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     public boolean equals(Object o) {
-        if (o instanceof ArrayDeque) {
-            ArrayDeque ad = (ArrayDeque) o;
+        if (o instanceof Deque) {
+            Deque ad = (Deque) o;
             if (ad.size() != this.size()) {
                 return false;
             } else {
                 for (int i = 0; i < size; i += 1) {
-                    if (this.get(i) != ad.get(i)) {
+                    if (!this.get(i).equals(ad.get(i))) {
                         return false;
                     }
                 }
