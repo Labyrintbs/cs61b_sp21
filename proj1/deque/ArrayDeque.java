@@ -27,7 +27,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         int oriLen = items.length;
         if (size + 1 > oriLen) {
             T[] biggerItems = (T[]) new Object[oriLen * UPFACTOR];
-            for (int i = 0; i < size; i++ ) {
+            for (int i = 0; i < size; i++) {
                 biggerItems[i] = this.get(i);
             }
             items = biggerItems;
