@@ -16,7 +16,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     }
     private class LinkedListDequeIterator implements Iterator<T> {
         private int iterPosition;
-        public LinkedListDequeIterator(){
+        LinkedListDequeIterator() {
             iterPosition = 0;
         }
         @Override
@@ -37,7 +37,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     @Override
-    public Iterator<T> iterator(){
+    public Iterator<T> iterator() {
         return new LinkedListDequeIterator();
     }
 
@@ -152,7 +152,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public T removeLast() {
         //TODO : change the condition to size
-        if (this.isEmpty()){
+        if (this.isEmpty()) {
             return null;
         } else {
             Node prevNode = sentinel.prev;
@@ -183,28 +183,28 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         return getRecursiveHelper(index, current);
     }
 
-    private T getRecursiveHelper(int index, Node node){
+    private T getRecursiveHelper(int index, Node node) {
         if (size == 0 || index + 1 > size) {
             return null;
-        } else if (index == 0){
+        } else if (index == 0) {
             return node.item;
         } else {
-            return getRecursiveHelper(index - 1 , node.next);
+            return getRecursiveHelper(index - 1, node.next);
         }
     }
 
-    public boolean equals(LinkedListDeque o){
-        if (o instanceof LinkedListDeque ) {
-           if (o.size() != this.size() ){
+    public boolean equals(LinkedListDeque o) {
+        if (o instanceof LinkedListDeque) {
+            if (o.size() != this.size()) {
                return false;
-           } else {
-               for (int i = 0; i < size ; i += 1 ) {
-                   if (this.get(i) != o.get(i)) {
+            } else {
+                for (int i = 0; i < size ; i += 1 ) {
+                    if (this.get(i) != o.get(i)) {
                        return false;
-                   }
-               }
-               return true;
-           }
+                    }
+                }
+                return true;
+            }
         } else {
             return false;
         }

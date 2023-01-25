@@ -3,7 +3,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private T[] items;
     private int size;
     private int nextFirst;
@@ -14,7 +14,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
 
     // Given current index that may exceed array range, transform it to correct in-range index
     private int refreshIndex(int index) {
-        if(index < 0 ) {
+        if (index < 0) {
             return items.length + index;
         } else if (index >= items.length) {
             return index - items.length;
@@ -23,11 +23,11 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
         }
     }
 
-    private void bigResize(){
+    private void bigResize() {
         int oriLen = items.length;
-        if (size+1 > oriLen) {
+        if (size + 1 > oriLen) {
             T[] biggerItems = (T[]) new Object[oriLen * UPFACTOR];
-            for (int i = 0; i < size; i ++ ) {
+            for (int i = 0; i < size; i++ ) {
                 biggerItems[i] = this.get(i);
             }
             items = biggerItems;
@@ -68,15 +68,15 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
         }
         @Override
         public boolean hasNext() {
-            return iterPosition < size ;
+            return iterPosition < size;
         }
 
         @Override
         public T next() {
             if (hasNext()) {
-            T nextItem = get(iterPosition);
-            iterPosition += 1;
-            return nextItem;
+                T nextItem = get(iterPosition);
+                iterPosition += 1;
+                return nextItem;
             } else {
                 return null;
             }
@@ -84,7 +84,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
     }
 
     @Override
-    public Iterator<T> iterator(){
+    public Iterator<T> iterator() {
         return new ArrayDequeIterator();
     }
 
@@ -130,7 +130,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
     @Override
     public void printDeque() {
         /* initialize the first and end of array */
-        for (int i = 0 ; i < size; i ++ ) {
+        for (int i = 0; i < size; i++) {
             int index = i + nextFirst + 1;
             index = refreshIndex(index);
             System.out.print(items[index] + " ");
@@ -141,7 +141,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
 
     @Override
     public T removeFirst() {
-        if (size <= 0){
+        if (size <= 0) {
             return null;
         } else {
             smallResize();
@@ -150,7 +150,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
             T x = items[index];
             size -= 1;
             items[index] = null;
-            nextFirst = refreshIndex(nextFirst+1);
+            nextFirst = refreshIndex(nextFirst + 1);
             return x;
         }
     }
@@ -180,12 +180,12 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T>{
         }
     }
 
-    public boolean equals(ArrayDeque o){
-        if (o instanceof ArrayDeque ) {
-            if (o.size() != this.size() ){
+    public boolean equals(ArrayDeque o) {
+        if (o instanceof ArrayDeque) {
+            if (o.size() != this.size()) {
                 return false;
             } else {
-                for (int i = 0; i < size ; i += 1 ) {
+                for (int i = 0; i < size; i += 1) {
                     if (this.get(i) != o.get(i)) {
                         return false;
                     }
