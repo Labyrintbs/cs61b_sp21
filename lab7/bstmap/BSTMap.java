@@ -17,6 +17,14 @@ public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
             right = null;
         }
 
+        private boolean isLeaf() {
+            if (!(this == null) && (this.left == null) && (this.right == null)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
     }
     public BSTMap() {
         size = 0;
@@ -25,18 +33,23 @@ public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        root = null;
+        size = 0;
     }
 
     @Override
     public boolean containsKey(K key) {
-        throw new UnsupportedOperationException();
+        return !(getHelper(key, root) == null);
     }
 
 
     @Override
     public V get(K key) {
-        return getHelper(key, root).value;
+        if (getHelper(key, root) == null) {
+            return null;
+        } else {
+            return getHelper(key, root).value;
+        }
     }
 
     private BSTNode getHelper(K key, BSTNode node) {
@@ -68,10 +81,11 @@ public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
             size += 1;
             return new BSTNode(key, value);
         } else if (key.compareTo(node.key) < 0) {
-            return putHelper(key, value, node.left);
+            node.left = putHelper(key, value, node.left);
         } else {
-            return putHelper(key, value, node.right);
+            node.right = putHelper(key, value, node.right);
         }
+        return node;
     }
     @Override
     public Set<K> keySet() {
@@ -90,9 +104,20 @@ public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
 
     @Override
     public Iterator<K> iterator() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
-    void printInorder() {
+    public void printInorder() {
+        printInorderHelper(root);
     }
+
+    private void printInorderHelper(BSTNode node) {
+        if (node != null){
+            printInorderHelper(node.left);
+            System.out.print("Key, Value:" + node.key + " ,"+ node.value + "\n");
+            printInorderHelper(node.right);
+        }
+
+    }
+
 }
