@@ -2,8 +2,9 @@ package bstmap;
 
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Stack;
 
-public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
+public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     private int size;
     private BSTNode root;
     private class BSTNode {
@@ -13,11 +14,9 @@ public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
         private BSTNode(K key, V value) {
             this.key = key;
             this.value = value;
-            left = null;
-            right = null;
         }
 
-        private boolean isLeaf() {
+        public boolean isLeaf() {
             if (!(this == null) && (this.left == null) && (this.right == null)) {
                 return true;
             } else {
@@ -102,9 +101,36 @@ public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
         throw new UnsupportedOperationException();
     }
 
+    private class BSTIterator implements Iterator<K> {
+        private int visited;
+        private Stack<BSTNode> stack;
+
+        public BSTIterator() {
+            stack = new Stack<BSTNode>();
+            pushLeft(root);
+        }
+
+        private void pushLeft(BSTNode node) {
+           while (node != null) {
+               stack.push(node);
+               node = node.left;
+           }
+        }
+        @Override
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        @Override
+        public K next() {
+            BSTNode node = stack.pop();
+            pushLeft(node.right);
+            return node.key;
+        }
+    }
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        return new BSTIterator();
     }
 
     public void printInorder() {
