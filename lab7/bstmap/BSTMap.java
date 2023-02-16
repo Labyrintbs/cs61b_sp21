@@ -1,5 +1,9 @@
 package bstmap;
 
+import edu.princeton.cs.algs4.BST;
+
+import java.security.PrivateKey;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Stack;
@@ -7,6 +11,7 @@ import java.util.Stack;
 public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     private int size;
     private BSTNode root;
+    private BSTNode successor;
     private class BSTNode {
         private K key;
         private V value;
@@ -88,17 +93,86 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     }
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+        Set<K> set = new HashSet<K>();
+        keySet(set, root);
+        return set;
+    }
+    private void keySet(Set<K> set, BSTNode node) {
+        if (node == null) {
+            return;
+        }
+        keySet(set, node.left);
+        set.add(node.key);
+        keySet(set, node.right);
     }
 
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        if (key == null) throw new IllegalArgumentException("key cannot be null");
+        root = removeHelper(root, key);
+        size -= 1;
+        return successor.value;
     }
 
+    private BSTNode removeHelper (BSTNode node, K key) {
+        if (node == null) return null;
+        int cmp = key.compareTo(node.key);
+        if (cmp < 0) {
+            node.left = removeHelper(node.left, key);
+        } else if (cmp > 0) {
+            node.right = removeHelper(node.right, key);
+        } else {
+            successor = node;
+            if (node.left == null) return node.right;
+            else if (node.right == null) return node.left;
+            else {
+               node.right = swapSmallest(node.right, node);
+            }
+        }
+       return node;
+    }
+
+    private BSTNode removeHelper (BSTNode node, K key, V value) {
+        if (node == null) return null;
+        int cmp = key.compareTo(node.key);
+        if (cmp < 0) {
+            node.left = removeHelper(node.left, key);
+        } else if (cmp > 0) {
+            node.right = removeHelper(node.right, key);
+        } else {
+            if (node.value == value){
+                successor = node;
+            if (node.left == null) return node.right;
+            else if (node.right == null) return node.left;
+            else {
+                node.right = swapSmallest(node.right, node);
+            }
+            } else {
+                return node;
+            }
+        }
+        return node;
+    }
+    // swap the L(T.right) with the R(T)
+    private BSTNode swapSmallest(BSTNode L, BSTNode R) {
+       if (L.left == null) {
+           R.key = L.key;
+           R.value = L.value;
+           return L.right;
+       } else {
+           L = swapSmallest(L.left, R);
+           return L;
+       }
+    }
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        root = removeHelper(root, key, value);
+        if (successor != null) {
+            size -= 1;
+            return successor.value;
+        } else {
+            return null;
+        }
     }
 
     private class BSTIterator implements Iterator<K> {
