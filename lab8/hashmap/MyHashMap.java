@@ -2,10 +2,7 @@ package hashmap;
 
 import org.checkerframework.checker.units.qual.C;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 /**
  *  A hash table-backed Map implementation. Provides amortized constant time
@@ -38,6 +35,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     private int bucketSize;
     private int nodeSize;
     private double maxLoad;
+    private HashSet<K> keys;
 
     /** Constructors */
     public MyHashMap() {this(DEFAULT_SIZE, DEFAULT_LOAD_FACTOR);}
@@ -61,36 +59,65 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             buckets[i] = createBucket();
         }
         nodeSize = 0;
+        keys = new HashSet<K>();
     }
 
     @Override
     public void clear() {
-
+        for (int i = 0; i < this.bucketSize; i += 1) {
+            buckets[i] = createBucket();
+        }
+        nodeSize = 0;
+        keys = new HashSet<K>();
     }
 
     @Override
     public boolean containsKey(K key) {
+        for (K cmpKey : keys) {
+            if (cmpKey.equals(key)) return true;
+        }
         return false;
     }
 
     @Override
     public V get(K key) {
+        if (key == null) throw new IllegalArgumentException("Key can not be null");
+        int hash = getHash(key);
+        for (Node n : buckets[hash]) {
+            if (n.key.equals(key)) {
+                return n.value;
+            }
+        }
         return null;
     }
 
     @Override
     public int size() {
-        return 0;
+        return nodeSize;
     }
 
     @Override
     public void put(K key, V value) {
-
+        Node n1 = createNode(key, value);
+        if (nodeSize / bucketSize > maxLoad) resize(2);
+        int i = getHash(n1.key);
+        boolean keyExist = false;
+        for (Node n2 : buckets[i]) {
+            if (n2.key.equals(key)) {
+                keyExist =true;
+                n2.value = value;
+            }
+        }
+       if (keyExist == false) {
+           buckets[i].add(n1);
+           nodeSize += 1;
+           keys.add(key);
+       }
     }
 
     @Override
     public Set<K> keySet() {
-        return null;
+        return keys;
     }
 
     @Override
@@ -105,8 +132,14 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     @Override
     public Iterator<K> iterator() {
-        return null;
+        return keySet().iterator();
     }
+
+
+    private int getHash(K key) {
+        return Math.floorMod(key.hashCode(), bucketSize);
+    }
+
     private void resize(int resizeFactor) {
         MyHashMap<K, V> newMap = new MyHashMap<K, V>(bucketSize * resizeFactor, maxLoad);
         for (K key : keySet()) {
